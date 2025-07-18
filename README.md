@@ -1,59 +1,81 @@
-# EcommercePlatform
+# EcommerceAssignment
 
-## Project info
+A modern e-commerce platform built with React, TypeScript, Vite, shadcn-ui, and Tailwind CSS.
 
-This project is built with:
+## Project Repository
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+GitHub: [https://github.com/ArmaanRawat/EcommerceAssignment](https://github.com/ArmaanRawat/EcommerceAssignment)
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+To set the remote for your local repository:
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+git remote add origin https://github.com/ArmaanRawat/EcommerceAssignment.git
 ```
 
-**Edit a file directly in GitHub**
+## Features
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- Product listing with infinite scroll
+- Category-based filtering (toggle buttons)
+- Product search bar in the navbar
+- Product detail pages
+- Shopping cart with add/remove/update
+- Responsive, modern UI
 
-**Use GitHub Codespaces**
+## Tech Stack
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
 
-## How can I deploy this project?
+## Setup Instructions
 
-You can deploy this project using your preferred deployment platform (e.g., Vercel, Netlify, etc.).
+1. **Clone the repository:**
 
-## Can I connect a custom domain?
+   ```sh
+   git clone https://github.com/ArmaanRawat/EcommerceAssignment.git
+   cd EcommerceAssignment
+   ```
 
-Yes, you can! Follow your deployment platform's instructions to connect a custom domain.
+2. **Install dependencies:**
+
+   ```sh
+   npm install
+   ```
+
+3. **Start the development server:**
+   ```sh
+   npm run dev
+   ```
+   The app will be available at [http://localhost:8080](http://localhost:8080) by default.
+
+## Assumptions & Limitations
+
+- The product and category data are fetched from a public API (https://fakestoreapi.in/). If the API is unavailable, product listing will not work.
+- No authentication or user accounts are implemented.
+- Cart data is stored in localStorage and is not persistent across devices.
+- No payment gateway or real checkout process is included (demo only).
+- Product images and categories are as provided by the API; no custom content.
+- Pagination and infinite scroll are limited by the API’s response and may not scale to very large datasets.
+
+## Future Improvements
+
+- Add user authentication and user-specific carts/orders.
+- Integrate a real payment gateway for checkout.
+- Add product reviews and ratings from users.
+- Improve error handling and loading states.
+- Add admin dashboard for product management.
+- Add unit and integration tests.
+- Add support for multiple languages and currencies.
+- Enhance accessibility and mobile UX further.
+- Add product image zoom and gallery features.
+- Improve SEO and add meta tags for better sharing.
+
+## Deployment
+
+You can deploy this project using platforms like Vercel, Netlify, or your own server. Follow their documentation for React/Vite projects.
+
+## License
+
+This project is for educational/demo purposes. Please contact the author for other uses.
