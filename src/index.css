@@ -1,0 +1,164 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* E-commerce Design System - Modern Shopping Experience */
+
+@layer base {
+  :root {
+    /* Core Brand Colors */
+    --background: 0 0% 100%;
+    --foreground: 222 15% 15%;
+
+    /* Card & Surface Colors */
+    --card: 0 0% 100%;
+    --card-foreground: 222 15% 15%;
+    --card-hover: 210 15% 97%;
+
+    /* Interactive Elements */
+    --primary: 222 84% 5%;
+    --primary-foreground: 0 0% 98%;
+    --primary-hover: 222 84% 8%;
+
+    /* E-commerce Accent Colors */
+    --accent: 24 95% 53%;
+    --accent-foreground: 0 0% 98%;
+    --accent-hover: 24 95% 48%;
+
+    /* Shopping Cart & Success */
+    --success: 142 72% 29%;
+    --success-foreground: 0 0% 98%;
+
+    /* Price & Sale Colors */
+    --price: 0 84% 60%;
+    --price-foreground: 0 0% 98%;
+
+    /* Neutral Tones */
+    --secondary: 210 15% 96%;
+    --secondary-foreground: 222 15% 15%;
+    --muted: 210 15% 94%;
+    --muted-foreground: 215 15% 45%;
+
+    /* Borders & Inputs */
+    --border: 214 15% 88%;
+    --input: 214 15% 88%;
+    --ring: 222 84% 5%;
+
+    /* Destructive Actions */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* Popover */
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 15% 15%;
+
+    /* Design System Tokens */
+    --radius: 0.75rem;
+    
+    /* E-commerce Specific */
+    --gradient-hero: linear-gradient(135deg, hsl(222 84% 5%), hsl(222 84% 8%));
+    --gradient-accent: linear-gradient(135deg, hsl(24 95% 53%), hsl(24 95% 48%));
+    --shadow-card: 0 4px 12px hsl(222 15% 15% / 0.08);
+    --shadow-card-hover: 0 8px 25px hsl(222 15% 15% / 0.15);
+    --shadow-button: 0 2px 8px hsl(222 84% 5% / 0.2);
+    
+    /* Animation Variables */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .dark {
+    --background: 222 84% 4%;
+    --foreground: 210 40% 95%;
+
+    --card: 222 84% 6%;
+    --card-foreground: 210 40% 95%;
+    --card-hover: 222 84% 8%;
+
+    --primary: 210 40% 95%;
+    --primary-foreground: 222 84% 4%;
+    --primary-hover: 210 40% 85%;
+
+    --accent: 24 95% 53%;
+    --accent-foreground: 222 84% 4%;
+    --accent-hover: 24 95% 58%;
+
+    --success: 142 72% 35%;
+    --success-foreground: 210 40% 95%;
+
+    --price: 0 84% 65%;
+    --price-foreground: 222 84% 4%;
+
+    --secondary: 217 32% 15%;
+    --secondary-foreground: 210 40% 95%;
+    --muted: 217 32% 12%;
+    --muted-foreground: 215 20% 60%;
+
+    --border: 217 32% 15%;
+    --input: 217 32% 15%;
+    --ring: 210 40% 95%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 210 40% 95%;
+
+    --popover: 222 84% 6%;
+    --popover-foreground: 210 40% 95%;
+
+    --gradient-hero: linear-gradient(135deg, hsl(222 84% 4%), hsl(222 84% 8%));
+    --gradient-accent: linear-gradient(135deg, hsl(24 95% 53%), hsl(24 95% 58%));
+    --shadow-card: 0 4px 12px hsl(0 0% 0% / 0.2);
+    --shadow-card-hover: 0 8px 25px hsl(0 0% 0% / 0.3);
+    --shadow-button: 0 2px 8px hsl(0 0% 0% / 0.4);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+@layer components {
+  /* Product Grid Animations */
+  .product-card {
+    @apply transition-smooth hover:shadow-card-hover hover:-translate-y-1;
+  }
+
+  .product-image {
+    @apply transition-transform duration-300 group-hover:scale-105;
+  }
+
+  /* Loading Animations */
+  .pulse-loading {
+    @apply animate-pulse bg-muted rounded-lg;
+  }
+
+  /* Cart Badge Animation */
+  .cart-badge {
+    @apply transition-bounce;
+  }
+
+  /* Category Filter Animation */
+  .category-pill {
+    @apply transition-smooth hover:scale-105;
+  }
+
+  /* Infinite Scroll Loading */
+  .loading-spinner {
+    @apply animate-spin rounded-full border-2 border-muted border-t-primary;
+  }
+}
+
+@layer utilities {
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  .transition-bounce {
+    transition: var(--transition-bounce);
+  }
+}
