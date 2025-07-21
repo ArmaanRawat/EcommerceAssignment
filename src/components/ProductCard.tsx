@@ -10,13 +10,15 @@ import { useToast } from '@/hooks/use-toast';
 interface Product {
   id: number;
   title: string;
+  description: string;
   price: number;
-  image: string;
-  rating?: {
-    rate: number;
-    count: number;
-  };
+  discountPercentage: number;
+  rating: number;
+  stock: number;
+  brand: string;
   category: string;
+  thumbnail: string;
+  images: string[];
 }
 
 interface ProductCardProps {
@@ -55,7 +57,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
               <div className="absolute inset-0 pulse-loading" />
             )}
             <img
-              src={product.image}
+              src={product.thumbnail}
               alt={product.title}
               className={`product-image w-full h-full object-cover ${
                 imageLoading ? 'opacity-0' : 'opacity-100'
@@ -83,6 +85,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             >
               {product.category}
             </Badge>
+            {product.stock <= 5 && (
+              <Badge className="absolute bottom-3 left-3 bg-red-500 text-white">Low Stock</Badge>
+            )}
           </div>
 
           {/* Product Info */}
@@ -91,22 +96,26 @@ export const ProductCard = ({ product }: ProductCardProps) => {
               <h3 className="font-semibold text-sm line-clamp-2 group-hover:text-accent transition-colors">
                 {product.title}
               </h3>
-              
+              <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
+                <span><b>Brand:</b> {product.brand}</span>
+                <span><b>Discount:</b> {product.discountPercentage}%</span>
+                <span><b>Stock:</b> {product.stock}</span>
+              </div>
+              {/* Description */}
+              <p className="text-xs text-muted-foreground line-clamp-2 min-h-[2.5em]">
+                {product.description}
+              </p>
               {/* Rating */}
-              {product.rating && (
-                <div className="flex items-center space-x-1">
-                  <div className="flex items-center">
-                    <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                    <span className="text-xs text-muted-foreground ml-1">
-                      {product.rating.rate} ({product.rating.count})
-                    </span>
-                  </div>
-                </div>
-              )}
+              <div className="flex items-center space-x-1 mt-1">
+                <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                <span className="text-xs text-muted-foreground ml-1">
+                  {product.rating}
+                </span>
+              </div>
             </div>
 
             {/* Price and Add to Cart */}
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mt-2">
               <div className="space-y-1">
                 <p className="text-lg font-bold text-accent">
                   ${product.price.toFixed(2)}

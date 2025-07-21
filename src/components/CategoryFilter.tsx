@@ -1,8 +1,14 @@
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
+interface Category {
+  slug: string;
+  name: string;
+  url: string;
+}
+
 interface CategoryFilterProps {
-  categories: string[];
+  categories: Category[];
   selectedCategory: string | null;
   onCategoryChange: (category: string | null) => void;
 }
@@ -11,8 +17,8 @@ export const CategoryFilter = ({ categories, selectedCategory, onCategoryChange 
   return (
     <div className="space-y-4">
       <h3 className="font-semibold text-sm">Shop by Category</h3>
-      <ScrollArea className="w-full">
-        <div className="flex space-x-2 pb-2">
+      <div className="w-full overflow-x-auto">
+        <div className="flex flex-nowrap space-x-2 pb-2 min-w-max whitespace-nowrap">
           <Button
             variant={selectedCategory === null ? "accent" : "outline"}
             size="sm"
@@ -24,18 +30,18 @@ export const CategoryFilter = ({ categories, selectedCategory, onCategoryChange 
           </Button>
           {categories.map((category) => (
             <Button
-              key={category}
-              variant={selectedCategory === category ? "accent" : "outline"}
+              key={category.slug}
+              variant={selectedCategory === category.slug ? "accent" : "outline"}
               size="sm"
-              onClick={() => onCategoryChange(category)}
-              className={`category-pill whitespace-nowrap ${selectedCategory === category ? 'ring-2 ring-accent' : ''}`}
-              aria-pressed={selectedCategory === category}
+              onClick={() => onCategoryChange(category.slug)}
+              className={`category-pill whitespace-nowrap ${selectedCategory === category.slug ? 'ring-2 ring-accent' : ''}`}
+              aria-pressed={selectedCategory === category.slug}
             >
-              {category}
+              {category.name}
             </Button>
           ))}
         </div>
-      </ScrollArea>
+      </div>
     </div>
   );
 };

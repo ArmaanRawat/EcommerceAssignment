@@ -4,7 +4,7 @@ interface Product {
   id: number;
   title: string;
   price: number;
-  image: string;
+  thumbnail: string;
   rating?: {
     rate: number;
     count: number;

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { ProductGrid } from '@/components/ProductGrid';
 import { CategoryFilter } from '@/components/CategoryFilter';
 import { useProducts } from '@/hooks/useProducts';
@@ -6,23 +6,21 @@ import { useSearch } from '@/contexts/SearchContext';
 
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const { products, loading, hasMore, loadMore } = useProducts(); // fetch all products
+  const [categories, setCategories] = useState<string[]>([]);
+  
+  useEffect(() => {
+    fetch('https://dummyjson.com/products/categories')
+      .then(res => res.json())
+      .then(data => setCategories(data));
+  }, []);
+
+  // Pass selectedCategory as slug to useProducts
+  const { products, loading, hasMore, loadMore } = useProducts(selectedCategory, 8);
   const { search } = useSearch();
 
-  // Extract unique categories from products
-  const categories = useMemo(() => {
-    const set = new Set<string>();
-    products.forEach(product => {
-      if (product.category) set.add(product.category);
-    });
-    return Array.from(set);
-  }, [products]);
-
-  // Filter products by search and selected category
+  // Only filter by search term client-side
   const filteredProducts = products.filter(product => {
-    const matchesCategory = selectedCategory ? product.category === selectedCategory : true;
-    const matchesSearch = search ? product.title.toLowerCase().includes(search.toLowerCase()) : true;
-    return matchesCategory && matchesSearch;
+    return search ? product.title.toLowerCase().includes(search.toLowerCase()) : true;
   });
 
   return (

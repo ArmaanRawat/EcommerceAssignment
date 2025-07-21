@@ -1,15 +1,19 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useRef } from 'react';
 
 interface Product {
   id: number;
   title: string;
+  description: string;
   price: number;
-  image: string;
-  rating?: {
-    rate: number;
-    count: number;
-  };
+  discountPercentage: number;
+  rating: number;
+  stock: number;
+  brand: string;
   category: string;
+  thumbnail: string;
+  images: string[];
+  // Add more fields as needed
 }
 
 interface UseProductsResult {
@@ -19,52 +23,43 @@ interface UseProductsResult {
   hasMore: boolean;
   loadMore: () => void;
   refetch: () => void;
+  total: number;
 }
 
 export const useProducts = (category: string | null = null, limit: number = 8): UseProductsResult => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [total, setTotal] = useState(0);
+  const skipRef = useRef(0);
 
-  const fetchProducts = useCallback(async (pageNum: number, reset: boolean = false) => {
+  const fetchProducts = useCallback(async (reset: boolean = false) => {
     try {
       setLoading(true);
       setError(null);
-
       let url = '';
+      let skip = reset ? 0 : skipRef.current;
       if (category) {
-        url = `https://fakestoreapi.in/api/categories/${category}/products`;
+        url = `https://dummyjson.com/products/category/${encodeURIComponent(category)}?limit=${limit}&skip=${skip}`;
       } else {
-        url = `https://fakestoreapi.in/api/products?page=${pageNum}&limit=${limit}`;
+        url = `https://dummyjson.com/products?limit=${limit}&skip=${skip}`;
       }
-
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
       const result = await response.json();
-      let newProducts = result.products || [];
-
-      // If using category endpoint, we need to implement our own pagination
-      if (category && newProducts.length > 0) {
-        const startIndex = (pageNum - 1) * limit;
-        const endIndex = startIndex + limit;
-        newProducts = newProducts.slice(startIndex, endIndex);
-        // Check if there are more products for this category
-        const totalInCategory = result.products?.length || 0;
-        setHasMore(endIndex < totalInCategory);
-      } else {
-        // For main products endpoint, check if we have less than requested
-        setHasMore(newProducts.length === limit);
-      }
-
+      const newProducts = Array.isArray(result.products) ? result.products : [];
+      setTotal(result.total || 0);
       if (reset) {
         setProducts(newProducts);
+        skipRef.current = limit;
       } else {
         setProducts(prev => [...prev, ...newProducts]);
+        skipRef.current += limit;
       }
+      setHasMore((reset ? limit : skipRef.current) < (result.total || 0));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
       setHasMore(false);
@@ -73,30 +68,30 @@ export const useProducts = (category: string | null = null, limit: number = 8): 
     }
   }, [category, limit]);
 
-  const loadMore = useCallback(() => {
-    if (!loading && hasMore) {
-      const nextPage = page + 1;
-      setPage(nextPage);
-      fetchProducts(nextPage);
-    }
-  }, [loading, hasMore, page, fetchProducts]);
-
-  const refetch = useCallback(() => {
-    setProducts([]);
-    setPage(1);
-    setHasMore(true);
-    setError(null);
-    fetchProducts(1, true);
-  }, [fetchProducts]);
-
   // Reset and fetch when category changes
   useEffect(() => {
     setProducts([]);
-    setPage(1);
     setHasMore(true);
     setError(null);
-    fetchProducts(1, true);
+    setTotal(0);
+    skipRef.current = 0;
+    fetchProducts(true);
   }, [category, fetchProducts]);
+
+  const loadMore = useCallback(() => {
+    if (!loading && hasMore) {
+      fetchProducts(false);
+    }
+  }, [loading, hasMore, fetchProducts]);
+
+  const refetch = useCallback(() => {
+    setProducts([]);
+    setHasMore(true);
+    setError(null);
+    setTotal(0);
+    skipRef.current = 0;
+    fetchProducts(true);
+  }, [fetchProducts]);
 
   return {
     products,
@@ -105,5 +100,6 @@ export const useProducts = (category: string | null = null, limit: number = 8): 
     hasMore,
     loadMore,
     refetch,
+    total,
   };
 };
